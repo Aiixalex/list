@@ -18,8 +18,10 @@ struct Node_s {
 
 enum ListOutOfBounds {
     LIST_OOB_START,
-    LIST_OOB_END
+    LIST_OOB_END,
+    LIST_NOT_OOB
 };
+
 typedef struct List_s List;
 struct List_s{
     Node *curr;
@@ -37,6 +39,18 @@ struct List_s{
 // Maximum total number of nodes (statically allocated) to be shared across all lists
 // (You may modify this, but reset the value to 100 when handing in your assignment)
 #define LIST_MAX_NUM_NODES 100
+
+typedef struct ListsMemoryAllocator_s ListsMemoryAllocator;
+struct ListsMemoryAllocator_s{
+    List list_array[LIST_MAX_NUM_HEADS];
+    List* free_list_ptr;
+};
+
+typedef struct NodesMemoryAllocator_s NodesMemoryAllocator;
+struct NodesMemoryAllocator_s{
+    Node node_array[LIST_MAX_NUM_NODES];
+    Node* free_node_ptr;
+};
 
 // General Error Handling:
 // Client code is assumed never to call these functions with a NULL List pointer, or 
@@ -56,7 +70,7 @@ void* List_first(List* pList);
 
 // Returns a pointer to the last item in pList and makes the last item the current item.
 // Returns NULL and sets current item to NULL if list is empty.
-void* List_last(List* pList); 
+void* List_last(List* pList);
 
 // Advances pList's current item by one, and returns a pointer to the new current item.
 // If this operation advances the current item beyond the end of the pList, a NULL pointer 
