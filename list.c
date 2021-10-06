@@ -349,16 +349,17 @@ void* List_remove(List* pList) {
 
     if(curr_node == pList->tail) {
         pList->tail = curr_node->prev;
-        if(curr_node->prev != NULL) {
-            curr_node->prev->next = NULL;
-        }
+
         pList->oob = LIST_OOB_END;
     }
     if(curr_node == pList->head) {
         pList->head = curr_node->next;
-        if(curr_node->next != NULL) {
-            curr_node->next->prev = NULL;
-        }
+    }
+    if(curr_node->prev != NULL) {
+        curr_node->prev->next = curr_node->next;
+    }
+    if(curr_node->next != NULL) {
+        curr_node->next->prev = curr_node->prev;
     }
     pList->curr = curr_node->next;
 
